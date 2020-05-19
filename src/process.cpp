@@ -42,7 +42,12 @@ string Process::Command() { return LinuxParser::Command(pid_); }
 // TODO: Return this process's memory utilization
 string Process::Ram() { 
   string ramString = LinuxParser::Ram(pid_);
-  long ramKB = std::stol(ramString);
+  long ramKB;
+  try {
+    ramKB = std::stol(ramString);
+  } catch(const std::invalid_argument) {
+    ramKB = 0;
+  }
   long ramMB = ramKB/1024;
   return std::to_string(ramMB);
 }
