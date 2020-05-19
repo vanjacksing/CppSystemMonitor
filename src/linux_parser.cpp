@@ -250,5 +250,7 @@ long LinuxParser::UpTime(int pid) {
   while (std::getline(linestream, token, ' ')) {
     tokens.push_back(token);
   }
-  return std::stol(tokens[21])/sysconf(_SC_CLK_TCK); 
+  long clk = sysconf(_SC_CLK_TCK);
+  long res = LinuxParser::UpTime() - std::stol(tokens[21])/clk;
+  return res; 
 }
